@@ -74,4 +74,14 @@ def create_app():
     app.register_blueprint(follow_bp)
     app.register_blueprint(comment_bp)
 
+
+    @app.route("/")
+    def home():
+        return {
+        "status": "success",
+        "message": "Blig Blogs API is running 🚀",
+        "version": "1.0"
+        }
+
+
     return app

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.extensions import db
-from app.models import Blog, Like, Media
+from app.models import Blog, Like, Media, Follow
 import cloudinary.uploader
 
 blog_bp = Blueprint("blog", __name__)
@@ -267,3 +267,21 @@ def upload_media(blog_id):
         "media_url": new_media.media_url,
         "media_type": new_media.media_type
     }), 201
+
+@blog_bp.route("/feed", methods=["GET"])
+@jwt_required()
+def following_feed():
+    user_id = int(get_jwt_identity())
+
+    followed_ids = db.session.query(Follow.following_id).filter_by(
+        follower_id=user_id
+    ).subquery()
+
+    blogs = Blog.query.filter(
+        Blog.author_id.in_(followed_ids)
+    ).order_by(Blog.created_at.desc()).all()
+
+    return jsonify({
+        "blogs": [blog.to_dict() for blog in blogs]
+    }), 200
+

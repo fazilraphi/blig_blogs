@@ -1,6 +1,7 @@
 from datetime import datetime
 from app.extensions import db
 
+
 class Media(db.Model):
     __tablename__ = "media"
 
@@ -18,10 +19,8 @@ class Media(db.Model):
         nullable=False
     )
 
-    media_type = db.Column(
-        media_type = db.Column(db.String(20), nullable=False)
-
-    )
+    # ✅ FIXED
+    media_type = db.Column(db.String(20), nullable=False)
 
     media_url = db.Column(db.String(500), nullable=False)
     thumbnail_url = db.Column(db.String(500), nullable=True)

@@ -18,7 +18,7 @@ def create_app():
         app,
         resources={r"/*": {"origins": [
             "http://localhost:3000",                 # local frontend
-            "https://blig-frontend.onrender.com"    # your deployed frontend (change if needed)
+            "https://blogs-frontend-33c1.vercel.app"    # your deployed frontend (change if needed)
         ]}},
         supports_credentials=True
     )
